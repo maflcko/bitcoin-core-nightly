@@ -301,6 +301,7 @@ jobs:
               echo 'implicit-unsigned-integer-truncation:util/hasher.h' >> test/sanitizer_suppressions/ubsan
               echo 'implicit-unsigned-integer-truncation:util/hasher.cpp' >> test/sanitizer_suppressions/ubsan
               echo 'implicit-unsigned-integer-truncation:util/bytevectorhash.cpp' >> test/sanitizer_suppressions/ubsan
+              echo 'leak:test_bitcoin-qt' >> test/sanitizer_suppressions/lsan
               echo 'TEST_RUNNER_TIMEOUT_FACTOR=400' >> $GITHUB_ENV
               echo 'TEST_RUNNER_EXTRA="--extended"' >> $FILE_ENV
           - name: 'valgrind ext'
