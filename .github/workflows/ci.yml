@@ -292,6 +292,8 @@ jobs:
               sed -i 's/ubuntu:24.04/debian:unstable/g' $FILE_ENV
               sed -i '/export APT_LLVM_V=".."/d' $FILE_ENV
               sed -i 's/-${APT_LLVM_V}//g' $FILE_ENV
+              sed -i '/NO_DEPENDS/d' $FILE_ENV
+              echo 'export DEP_OPTS="build_CC=clang build_CXX=clang++ CC=clang CXX=clang++"' >> $FILE_ENV
               sed -i "s/-DCMAKE_CXX_FLAGS='/-DAPPEND_LDFLAGS='-latomic' -DCMAKE_CXX_FLAGS='/g" $FILE_ENV
               echo 'export CI_IMAGE_PLATFORM="linux/i386"' >> $FILE_ENV
               echo 'implicit-signed-integer-truncation:MillisToTimeval' >> test/sanitizer_suppressions/ubsan
