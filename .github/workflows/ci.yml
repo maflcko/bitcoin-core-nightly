@@ -624,7 +624,6 @@ jobs:
     env:
       TEST_RUNNER_TIMEOUT_FACTOR: 40
       DYLD_LIBRARY_PATH: ${{ github.workspace }}/lib
-      QT_STYLE_OVERRIDE: fusion
 
     steps:
       - *CHECKOUT_BC
@@ -720,7 +719,6 @@ jobs:
     env:
       TEST_RUNNER_TIMEOUT_FACTOR: 40
       DYLD_LIBRARY_PATH: ${{ github.workspace }}/lib
-      QT_STYLE_OVERRIDE: fusion
 
     steps:
       - *CHECKOUT_BC
