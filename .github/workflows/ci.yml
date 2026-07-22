@@ -73,13 +73,13 @@ jobs:
               test: fun,fuzz
               os: ubuntu-24.04
 
-            - bld:                                 -DAPPEND_CFLAGS='-O3 -g2    ' -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++;-D_GLIBCXX_DEBUG;-D_GLIBCXX_DEBUG_PEDANTIC" -DAPPEND_CXXFLAGS="-O3 -g2    -Wno-error=array-bounds -Wno-error=stringop-overflow  -Wno-error=sfinae-incomplete"
+            - bld:                                 -DAPPEND_CFLAGS='-O3 -g2    ' -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++;-D_GLIBCXX_DEBUG;-D_GLIBCXX_DEBUG_PEDANTIC" -DAPPEND_CXXFLAGS="-O3 -g2    -Wno-error=array-bounds -Wno-error=stringop-overflow"
               task_adjustments: ''
               desc: "g++ DEBUG no_lto"
               test: fun,fuzz
               os: ubuntu-24.04
 
-            - bld:                                 -DAPPEND_CFLAGS='-O3 -g2    ' -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++" -DBUILD_GUI=ON -DAPPEND_CXXFLAGS="-O3 -g2    -Wno-error=array-bounds -Wno-error=stringop-overflow  -Wno-error=sfinae-incomplete"
+            - bld:                                 -DAPPEND_CFLAGS='-O3 -g2    ' -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++" -DBUILD_GUI=ON -DAPPEND_CXXFLAGS="-O3 -g2    -Wno-error=array-bounds -Wno-error=stringop-overflow"
               task_adjustments: ''
               desc: "g++ no_lto"
               test: fun,fuzz
@@ -506,7 +506,7 @@ jobs:
         run: |
           cmake -B bld \
             --preset=dev-mode \
-            -DAPPEND_CXXFLAGS="-Wno-error=stringop-overflow -Wno-error=sfinae-incomplete" \
+            -DAPPEND_CXXFLAGS="-Wno-error=stringop-overflow" \
             -DCMAKE_COMPILE_WARNING_AS_ERROR=ON \
             -DWITH_CCACHE=ON
 
@@ -533,7 +533,7 @@ jobs:
         run: |
           cmake -B bld \
             --preset=dev-mode \
-            -DAPPEND_CXXFLAGS="-Wno-error=stringop-overflow -Wno-error=sfinae-incomplete" \
+            -DAPPEND_CXXFLAGS="-Wno-error=stringop-overflow" \
             -DCMAKE_COMPILE_WARNING_AS_ERROR=ON \
             -DWITH_CCACHE=ON
 
