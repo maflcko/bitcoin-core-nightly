@@ -107,7 +107,7 @@ jobs:
 
       - name: Set sanitizer suppressions (only for ctest+functional)
         run: |
-          echo LSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/lsan" >> "$GITHUB_ENV"
+          echo LSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/lsan:print_suppressions=0" >> "$GITHUB_ENV"
           echo TSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/tsan:halt_on_error=1:second_deadlock_stack=1" >> "$GITHUB_ENV"
           echo UBSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/ubsan:print_stacktrace=1:halt_on_error=1:report_error_type=1" >> "$GITHUB_ENV"
 
@@ -301,8 +301,6 @@ jobs:
               echo 'implicit-unsigned-integer-truncation:util/hasher.h' >> test/sanitizer_suppressions/ubsan
               echo 'implicit-unsigned-integer-truncation:util/hasher.cpp' >> test/sanitizer_suppressions/ubsan
               echo 'implicit-unsigned-integer-truncation:util/bytevectorhash.cpp' >> test/sanitizer_suppressions/ubsan
-              echo 'leak:test_bitcoin-qt' >> test/sanitizer_suppressions/lsan
-              echo 'leak:bitcoin-qt' >> test/sanitizer_suppressions/lsan
               echo 'TEST_RUNNER_TIMEOUT_FACTOR=400' >> $GITHUB_ENV
               echo 'TEST_RUNNER_EXTRA="--extended"' >> $FILE_ENV
           - name: 'valgrind ext'
@@ -573,7 +571,7 @@ jobs:
       - name: Run fuzz tests
         run: |
           git clone https://github.com/bitcoin-core/qa-assets --depth=1 ./qa-assets
-          export LSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/lsan"
+          export LSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/lsan:print_suppressions=0"
           export TSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/tsan:halt_on_error=1"
           export UBSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/ubsan:print_stacktrace=1:halt_on_error=1"
           ./bld/test/fuzz/test_runner.py -j $(nproc) -l DEBUG ./qa-assets/fuzz_corpora/
