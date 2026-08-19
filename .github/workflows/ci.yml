@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
           conf:
-            - bld: -DAPPEND_CXXFLAGS="-O3 -g2"       -DAPPEND_CFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_DEBUG" -DSANITIZERS=thread -DBUILD_GUI=OFF   -DCMAKE_CXX_FLAGS="-O3 -g2 ${LIBCXX_FLAGS} -pthread -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_DEBUG"   -DCMAKE_C_FLAGS="-O3 -g2 -pthread" 
+            - bld: -DAPPEND_CXXFLAGS="-O3 -g2"       -DAPPEND_CFLAGS='-O3 -g2'       -DAPPEND_LDFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_DEBUG" -DSANITIZERS=thread -DBUILD_GUI=OFF   -DCMAKE_CXX_FLAGS="-O3 -g2 ${LIBCXX_FLAGS} -pthread -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_DEBUG"   -DCMAKE_C_FLAGS="-O3 -g2 -pthread"
 
               build_instrumented_libcxx: true
               task_adjustments: ''
@@ -23,14 +23,14 @@ jobs:
               test: fun,fuzz
               os: ubuntu-24.04
 
-            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION}" -DSANITIZERS=thread -DBUILD_GUI=OFF
+            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DAPPEND_LDFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION}" -DSANITIZERS=thread -DBUILD_GUI=OFF
               task_adjustments: |
                 sed -i '/threadpool_tests\.cpp/d' src/test/CMakeLists.txt
               desc: "clang tsan"
               test: fun
               os: ubuntu-24.04
 
-            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++" -DSANITIZERS=thread -DBUILD_GUI=OFF -DAPPEND_CXXFLAGS="-O3 -g2 -Wno-error=maybe-uninitialized -Wno-error=array-bounds"
+            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DAPPEND_LDFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++" -DSANITIZERS=thread -DBUILD_GUI=OFF -DAPPEND_CXXFLAGS="-O3 -g2 -Wno-error=maybe-uninitialized -Wno-error=array-bounds"
               task_adjustments: |
                 sed -i '/threadpool_tests\.cpp/d' src/test/CMakeLists.txt
                 dnf install -y libtsan
@@ -40,25 +40,25 @@ jobs:
               test: fun
               os: ubuntu-24.04
 
-            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-stdlib=libc++;-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_DEBUG" -DBUILD_GUI=OFF
+            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DAPPEND_LDFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-stdlib=libc++;-D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_DEBUG" -DBUILD_GUI=OFF
               task_adjustments: ''
               desc: "libc++ DEBUG ARM"
               test: fun,fuzz
               os: ubuntu-24.04-arm
 
-            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-stdlib=libc++;-funsigned-char" -DSANITIZERS=address,float-divide-by-zero,integer,undefined -DBUILD_GUI=OFF
+            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DAPPEND_LDFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-stdlib=libc++;-funsigned-char" -DSANITIZERS=address,float-divide-by-zero,integer,undefined -DBUILD_GUI=OFF
               task_adjustments: ''
               desc: "libc++ asan -funsigned-char"
               test: fun,fuzz
               os: ubuntu-24.04
 
-            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-funsigned-char" -DSANITIZERS=address,float-divide-by-zero,integer,undefined -DBUILD_GUI=ON
+            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DAPPEND_LDFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-funsigned-char" -DSANITIZERS=address,float-divide-by-zero,integer,undefined -DBUILD_GUI=ON
               task_adjustments: ''
               desc: "clang asan -funsigned-char + gui"
               test: fun
               os: ubuntu-24.04
 
-            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++" -DSANITIZERS=address,undefined -DBUILD_GUI=OFF -DAPPEND_CXXFLAGS="-O3 -g2 -Wno-error=maybe-uninitialized -Wno-error=array-bounds"
+            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DAPPEND_LDFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++" -DSANITIZERS=address,undefined -DBUILD_GUI=OFF -DAPPEND_CXXFLAGS="-O3 -g2 -Wno-error=maybe-uninitialized -Wno-error=array-bounds"
               task_adjustments: |
                 dnf install -y libasan libubsan
                 echo 'nonnull-attribute:streams.h' >> test/sanitizer_suppressions/ubsan
@@ -67,25 +67,25 @@ jobs:
               test: fun,fuzz
               os: ubuntu-24.04
 
-            - bld: -DAPPEND_CXXFLAGS='-O3 -g2 -flto' -DAPPEND_CFLAGS='-O3 -g2 -flto' -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-stdlib=libc++" -DAPPEND_LDFLAGS="-flto" -DBUILD_GUI=OFF
+            - bld: -DAPPEND_CXXFLAGS='-O3 -g2 -flto' -DAPPEND_CFLAGS='-O3 -g2 -flto' -DAPPEND_LDFLAGS="-O3 -g2 -flto" -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-stdlib=libc++" -DBUILD_GUI=OFF
               task_adjustments: ''
               desc: "libc++ lto"
               test: fun,fuzz
               os: ubuntu-24.04
 
-            - bld:                                 -DAPPEND_CFLAGS='-O3 -g2    ' -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++;-D_GLIBCXX_DEBUG;-D_GLIBCXX_DEBUG_PEDANTIC" -DAPPEND_CXXFLAGS="-O3 -g2    -Wno-error=array-bounds -Wno-error=stringop-overflow"
+            - bld:                                 -DAPPEND_CFLAGS='-O3 -g2    ' -DAPPEND_LDFLAGS='-O3 -g2'           -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++;-D_GLIBCXX_DEBUG;-D_GLIBCXX_DEBUG_PEDANTIC" -DAPPEND_CXXFLAGS="-O3 -g2    -Wno-error=array-bounds -Wno-error=stringop-overflow"
               task_adjustments: ''
               desc: "g++ DEBUG no_lto"
               test: fun,fuzz
               os: ubuntu-24.04
 
-            - bld:                                 -DAPPEND_CFLAGS='-O3 -g2    ' -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++" -DBUILD_GUI=ON -DAPPEND_CXXFLAGS="-O3 -g2         -Wno-error=maybe-uninitialized -Wno-error=array-bounds -Wno-error=stringop-overflow"
+            - bld:                                 -DAPPEND_CFLAGS='-O3 -g2    ' -DAPPEND_LDFLAGS='-O3 -g2'           -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="/opt/gcc-latest/bin/gcc" -DCMAKE_CXX_COMPILER="/opt/gcc-latest/bin/g++;-static-libstdc++" -DBUILD_GUI=ON -DAPPEND_CXXFLAGS="-O3 -g2         -Wno-error=maybe-uninitialized -Wno-error=array-bounds -Wno-error=stringop-overflow"
               task_adjustments: ''
               desc: "g++ no_lto"
               test: fun,fuzz
               os: ubuntu-24.04
 
-            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-stdlib=libstdc++"
+            - bld: -DAPPEND_CXXFLAGS='-O3 -g2'       -DAPPEND_CFLAGS='-O3 -g2'       -DAPPEND_LDFLAGS='-O3 -g2'       -DCMAKE_BUILD_TYPE=Debug -DAPPEND_CPPFLAGS='-D_LIBCPP_REMOVE_TRANSITIVE_INCLUDES' -DCMAKE_C_COMPILER="clang-${LLVM_VERSION}" -DCMAKE_CXX_COMPILER="clang++-${LLVM_VERSION};-stdlib=libstdc++"
               task_adjustments: ''
               desc: "clang libstdc++ ARM"
               test: fun,fuzz
