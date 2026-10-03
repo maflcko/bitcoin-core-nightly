@@ -307,7 +307,7 @@ jobs:
           - name: 'valgrind ext'
             file-env: './ci/test/00_setup_env_native_valgrind.sh'
             task_adjustments: |
-              sed -i 's/TEST_RUNNER_EXTRA="/TEST_RUNNER_EXTRA="--extended /g' $FILE_ENV
+              sed -i 's|^export TEST_RUNNER_EXTRA=.*$|export TEST_RUNNER_EXTRA="--extended"|' $FILE_ENV
           - name: 'fuzz valgrind'
             file-env: './ci/test/00_setup_env_native_fuzz_with_valgrind.sh'
             task_adjustments: ''  # No adjustmen, not run upstream, see https://github.com/bitcoin/bitcoin/pull/
