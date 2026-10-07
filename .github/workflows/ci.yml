@@ -654,6 +654,7 @@ jobs:
 
       - name: Adjust paths in test/config.ini
         run: |
+          mv test/with_sanitizer_env.py.in test/with_sanitizer_env.py
           sed -i '' "s|^SRCDIR=.*|SRCDIR=${{ github.workspace }}|" test/config.ini
           sed -i '' "s|^BUILDDIR=.*|BUILDDIR=${{ github.workspace }}|" test/config.ini
           sed -i '' "s|^RPCAUTH=.*|RPCAUTH=${{ github.workspace }}/share/rpcauth/rpcauth.py|" test/config.ini
@@ -749,6 +750,7 @@ jobs:
 
       - name: Adjust paths in test/config.ini
         run: |
+          mv test/with_sanitizer_env.py.in test/with_sanitizer_env.py
           sed -i '' "s|^SRCDIR=.*|SRCDIR=${{ github.workspace }}|" test/config.ini
           sed -i '' "s|^BUILDDIR=.*|BUILDDIR=${{ github.workspace }}|" test/config.ini
           sed -i '' "s|^RPCAUTH=.*|RPCAUTH=${{ github.workspace }}/share/rpcauth/rpcauth.py|" test/config.ini
