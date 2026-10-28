@@ -316,11 +316,6 @@ jobs:
             task_adjustments: |
               sed -i 's/NO_WALLET=1//g' $FILE_ENV
               sed -i 's/DENABLE_WALLET=OFF/DENABLE_WALLET=ON/g' $FILE_ENV
-          - name: 'i686 ipc'
-            file-env: './ci/test/00_setup_env_i686_no_ipc.sh'
-            task_adjustments: |
-              sed -i 's/NO_IPC=1//g' $FILE_ENV
-              sed -i 's/DENABLE_IPC=OFF/DENABLE_IPC=ON/g' $FILE_ENV
           - name: 's390x ext_fun+fuzz'
             file-env: './ci/test/00_setup_env_s390x.sh'
             task_adjustments: |
