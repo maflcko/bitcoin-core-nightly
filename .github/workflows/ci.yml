@@ -539,7 +539,7 @@ jobs:
         run: *TESTS_RUN
 
   fedora-fuzz:
-    name: 'Fedora fuzz, asan, system libs'
+    name: 'Fedora fuzz reachability [system libs]'
     runs-on: ubuntu-latest
     timeout-minutes: 360
     container:
@@ -558,7 +558,7 @@ jobs:
             -DCMAKE_COMPILE_WARNING_AS_ERROR=ON \
             -DWITH_CCACHE=ON \
             -DBUILD_FOR_FUZZING=ON \
-            -DSANITIZERS=fuzzer,address,integer,undefined,float-divide-by-zero \
+            -DSANITIZERS=fuzzer \
             -DCMAKE_C_COMPILER="clang" \
             -DCMAKE_CXX_COMPILER="clang++"
 
@@ -567,10 +567,7 @@ jobs:
       - name: Run fuzz tests
         run: |
           git clone https://github.com/bitcoin-core/qa-assets --depth=1 ./qa-assets
-          export LSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/lsan:print_suppressions=0"
-          export TSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/tsan:halt_on_error=1"
-          export UBSAN_OPTIONS="suppressions=$(pwd)/test/sanitizer_suppressions/ubsan:print_stacktrace=1:halt_on_error=1"
-          ./bld/test/fuzz/test_runner.py -j $(nproc) -l DEBUG ./qa-assets/fuzz_corpora/
+          FUZZ_ENFORCE_REACHABILITY=1 ./bld/test/fuzz/test_runner.py -j $(nproc) -l DEBUG ./qa-assets/fuzz_corpora/
 
   mac-cross-intel:
     name: 'Linux->macOS Intel cross, no tests'
