@@ -333,6 +333,10 @@ jobs:
         if: ${{ matrix.requires_qemu && matrix.runner == null }}
         uses: docker/setup-qemu-action@v3
 
+      - name: Reduce ASLR entropy for sanitizers
+        run: |
+          sudo sysctl -w vm.mmap_rnd_bits=28
+
       - name: Apply matrix adjustments
         if: ${{ matrix.task_adjustments != '' }}
         run: |
