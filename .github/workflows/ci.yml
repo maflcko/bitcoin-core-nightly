@@ -287,7 +287,6 @@ jobs:
               echo 'implicit-unsigned-integer-truncation:util/hasher.cpp' >> test/sanitizer_suppressions/ubsan
               echo 'implicit-unsigned-integer-truncation:util/bytevectorhash.cpp' >> test/sanitizer_suppressions/ubsan
               echo 'TEST_RUNNER_TIMEOUT_FACTOR=400' >> $GITHUB_ENV
-            docker_dns: true
           - name: 'fun ext i386'
             file-env: './ci/test/00_setup_env_native_asan.sh'
             task_adjustments: |
@@ -305,7 +304,6 @@ jobs:
               echo 'implicit-unsigned-integer-truncation:util/bytevectorhash.cpp' >> test/sanitizer_suppressions/ubsan
               echo 'TEST_RUNNER_TIMEOUT_FACTOR=400' >> $GITHUB_ENV
               echo 'TEST_RUNNER_EXTRA="--extended"' >> $FILE_ENV
-            docker_dns: true
           - name: 'valgrind ext'
             file-env: './ci/test/00_setup_env_native_valgrind.sh'
             task_adjustments: |
@@ -338,13 +336,6 @@ jobs:
       - name: Reduce ASLR entropy for sanitizers
         run: |
           sudo sysctl -w vm.mmap_rnd_bits=28
-
-      - name: Configure Docker DNS
-        if: ${{ matrix.docker_dns }}
-        run: |
-          sudo mkdir -p /etc/docker
-          printf '%s\n' '{"dns":["1.1.1.1"]}' | sudo tee /etc/docker/daemon.json
-          sudo systemctl restart docker
 
       - name: Apply matrix adjustments
         if: ${{ matrix.task_adjustments != '' }}
