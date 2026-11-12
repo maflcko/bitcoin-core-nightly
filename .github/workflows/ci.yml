@@ -710,8 +710,8 @@ jobs:
 
   mac-native-test:
     name: 'macOS, test cross-built'
-    # The minimum supported macos version for releases
-    runs-on: macos-14
+    # The minimum supported macos version for releases, or best-effort latest available version
+    runs-on: macos-15
     needs: mac-cross
 
     env:
